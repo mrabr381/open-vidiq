@@ -1,9 +1,12 @@
 """Bundled sample dataset.
 
-A clearly fictional channel ("Mystery Lane") with internally consistent
-numbers, so the app is demonstrably useful with no API key. The sample
-report labels itself SAMPLE on every page — sample figures are never
-presented as a real channel's data.
+A snapshot of the real public channel Kurzgesagt – In a Nutshell
+(@kurzgesagt): its 20 most recent public uploads, with exact view
+counts read from vidIQ's public stats page on 20 November 2026
+(figures as of 19 November 2026). See sample_data/SAMPLE_SOURCE.md
+for the full sourcing note. The previous fictional "Mystery Lane"
+dataset is kept as the offline test fixture in
+sample_data/mystery_lane_fixture/.
 """
 
 from __future__ import annotations

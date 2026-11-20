@@ -30,6 +30,9 @@ STOPWORDS = {
     # for a mystery channel they are real topics, not filler.
     "against", "between", "through", "during", "before", "after",
     "without", "within", "upon", "among", "towards", "toward",
+    # Meta words: they appear in almost every description ("this video",
+    # "watch now", "us", "them") and say nothing about the topic.
+    "video", "videos", "us", "them", "re", "now",
     "read", "look", "looks", "check", "take", "takes", "give", "made",
     "make", "find", "say", "says", "said", "tell", "tells", "know",
     "think", "want", "need", "see", "saw", "come", "went", "go",
@@ -91,6 +94,45 @@ def find_outliers(enriched: list[dict], threshold: float = 2.0) -> tuple[list[di
     return outliers, notable
 
 
+URL_RE = re.compile(r"https?://\S+|www\.\S+|\b[a-z0-9-]+\.[a-z]{2,}(?:/\S*)?")
+
+
+def _strip_urls(text: str) -> str:
+    """Remove URLs before tokenizing.
+
+    A raw link contributes junk tokens ("https", "kgs", "link", "com",
+    "shop", "calendar" from shop.kgs.link/calendar-…) that then top
+    the keyword table — they describe the channel's shop, not the
+    video. Sponsor/promo paragraphs survive as plain words, but at
+    1–2 videos each they no longer dominate.
+    """
+    return URL_RE.sub(" ", text or "")
+
+
+def _description_summary(description: str) -> str:
+    """The part of a description that actually describes the video.
+
+    Real descriptions put the summary first and the boilerplate after
+    ("Sources & further reading", "OUR CHANNELS", "HOW CAN YOU SUPPORT
+    US?", "Follow us …"). Counting the whole description lets footer
+    words ("discord", "caption", "patreon") flood the keyword table —
+    on the Kurzgesagt sample they were the entire top-15. Cut at the
+    first footer marker; fall back to the full text when there is none.
+    """
+    markers = (
+        "sources & further reading", "sources:", "our channels",
+        "how can you support us", "follow us", "support us on patreon",
+        "our sources", "further reading",
+    )
+    lowered = (description or "").lower()
+    cut = len(description or "")
+    for marker in markers:
+        idx = lowered.find(marker)
+        if idx != -1:
+            cut = min(cut, idx)
+    return (description or "")[:cut]
+
+
 def keyword_analysis(enriched: list[dict]) -> dict:
     """Word frequency in titles + descriptions, and outlier lift.
 
@@ -105,14 +147,24 @@ def keyword_analysis(enriched: list[dict]) -> dict:
     outlier_doc: Counter = Counter()
     rest_doc: Counter = Counter()
     for video in enriched:
-        words = set(tokenize(video["title"] + " " + video.get("description", "")))
+        text = _strip_urls(video["title"] + " " + _description_summary(video.get("description", "")))
+        words = set(tokenize(text))
         total_counts.update(words)
         target = outlier_doc if video["video_id"] in outlier_ids else rest_doc
         target.update(words)
     n_out, n_rest = max(1, len(outliers)), max(1, len(enriched) - len(outliers))
+    # Boilerplate filter: a word in more than half the videos carries no
+    # signal — it is channel boilerplate repeated in every description
+    # (footers, "watch in other languages" links, social links), not a
+    # topic. Real descriptions (e.g. the Kurzgesagt sample) are full of
+    # it; without this the keyword table is just the channel footer.
+    # A genuine topic word rarely clears 50% of a channel's videos.
+    boilerplate_cutoff = len(enriched) // 2
     keywords = []
     for word, count in total_counts.most_common():
         if count < 2:
+            continue
+        if count > boilerplate_cutoff and len(enriched) >= 5:
             continue
         out_share = outlier_doc.get(word, 0) / n_out
         rest_share = rest_doc.get(word, 0) / n_rest

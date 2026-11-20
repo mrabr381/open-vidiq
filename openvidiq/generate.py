@@ -119,7 +119,7 @@ def local_titles(analysis: dict, count: int = 10) -> list[str]:
             verb = "Do" if phrase.endswith("s") else "Does"
             add(f"Why {verb} the {phrase} Still Haunt Us?")
         if len(titles) < count and len(titles) - before < 3:
-            add(f"{phrase} — The Mystery That Won't Go Away")
+            add(f"{phrase} — The Question That Won't Go Away")
     for word in words:
         if len(titles) >= count:
             break
@@ -138,7 +138,7 @@ def local_description(analysis: dict, title: str) -> str:
         f"In this video from {channel}, we dig into {niche} — "
         f"including {keyword_line}.\n\n"
         f"Chapters, sources and links are in the pinned comment.\n"
-        f"Subscribe for a new mystery every week."
+        f"Subscribe for a new video every week."
     )
 
 

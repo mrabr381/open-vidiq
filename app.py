@@ -1,8 +1,9 @@
 """Open-vidIQ web app — Streamlit, deploy-ready for Streamlit Community Cloud.
 
-No key needed to try it: "Use sample data" runs the full analysis on the
-bundled fictional channel. With your own free YouTube Data API key, paste
-any channel and analyse it live.
+No key needed to try it: "Use sample data" runs the full analysis on a
+bundled snapshot of a real public channel (Kurzgesagt – In a Nutshell,
+20 most recent uploads, views as of 19 Nov 2026). With your own free
+YouTube Data API key, paste any channel and analyse it live.
 """
 
 from __future__ import annotations
@@ -39,18 +40,19 @@ with st.sidebar:
 
 channel_input = st.text_input(
     "Channel (ID, @handle, URL, or name)",
-    value="@mysterylane",
+    value="@kurzgesagt",
     disabled=(mode == "Sample channel (no key)"),
 )
-niche = st.text_input("Niche keyword (optional)", value="unsolved mysteries",
-                      help="Seeds the generated titles and tags, e.g. 'unsolved mysteries'.")
+niche = st.text_input("Niche keyword (optional)", value="science",
+                      help="Seeds the generated titles and tags, e.g. 'science'.")
 
 if st.button("🔍 Analyse channel", type="primary"):
     try:
         if mode.startswith("Sample"):
             channel, videos = load_sample()
             source = "sample"
-            st.info("Using the bundled SAMPLE channel 'Mystery Lane' — fictional data for demo.")
+            st.info("Using the bundled SAMPLE dataset: Kurzgesagt – In a Nutshell, "
+                    "20 most recent public uploads, views as of 19 Nov 2026.")
         else:
             key = (api_key or os.environ.get("YOUTUBE_API_KEY", "")).strip()
             if not key:
@@ -143,6 +145,7 @@ if st.button("🔍 Analyse channel", type="primary"):
 st.divider()
 st.caption(
     "Open-vidIQ is free and open source (MIT). It is not affiliated with vidIQ, "
-    "TubeBuddy, or YouTube. Sample data is fictional. Generated titles are "
+    "TubeBuddy, or YouTube. The sample dataset is a snapshot of real public "
+    "data (Kurzgesagt, views as of 19 Nov 2026). Generated titles are "
     "suggestions, not predictions."
 )

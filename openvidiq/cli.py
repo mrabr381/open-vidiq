@@ -1,7 +1,7 @@
 """Command-line interface.
 
     python -m openvidiq --sample --out report/
-    python -m openvidiq --channel @mysterylane --keyword "unsolved mysteries" --out report/
+    python -m openvidiq --channel @kurzgesagt --keyword "science" --out report/
     python -m openvidiq --channel UCxxxxxxxxxxxxxxxxxxxxxx --max-videos 100 --out report/
 
 Keys come from --api-key / --gemini-key, or the environment
@@ -38,7 +38,7 @@ def build_parser() -> argparse.ArgumentParser:
     )
     group = parser.add_mutually_exclusive_group(required=True)
     group.add_argument("--sample", action="store_true",
-                       help="Analyse the bundled fictional sample channel (no key needed).")
+                       help="Analyse the bundled sample dataset (Kurzgesagt snapshot, no key needed).")
     group.add_argument("--channel", metavar="ID|@HANDLE|URL|NAME",
                        help="YouTube channel to analyse (needs YOUTUBE_API_KEY).")
     parser.add_argument("--keyword", default="",
@@ -74,7 +74,8 @@ def run(argv: list[str] | None = None, env: dict | None = None) -> int:
         if args.sample:
             channel, videos = load_sample()
             source = "sample"
-            print("Using the bundled SAMPLE channel 'Mystery Lane' (fictional data).")
+            print("Using the bundled SAMPLE dataset: Kurzgesagt – In a Nutshell "
+                  "(@kurzgesagt), 20 most recent public uploads, views as of 19 Nov 2026.")
         else:
             if not api_key:
                 raise OpenVidIQError(

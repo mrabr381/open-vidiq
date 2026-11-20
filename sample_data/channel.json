@@ -1,12 +1,12 @@
 {
-  "channel_id": "UCSAMPLE0000000000000001",
-  "title": "Mystery Lane",
-  "handle": "@mysterylane",
-  "subscribers": 12400,
+  "channel_id": "UCsXVk37bltHxD1rDPwtNMg",
+  "title": "Kurzgesagt – In a Nutshell",
+  "handle": "@kurzgesagt",
+  "subscribers": 25800000,
   "subscribers_hidden": false,
-  "video_count": 24,
-  "description": "Unsolved mysteries, haunted places and forgotten history from Britain and beyond. New video every week.",
-  "published_at": "2024-11-04T10:00:00Z",
+  "video_count": 401,
+  "description": "Animated science videos from Munich, Germany.",
+  "published_at": "2013-07-09T00:00:00Z",
   "thumbnail_url": "",
-  "url": "https://www.youtube.com/@mysterylane"
+  "url": "https://www.youtube.com/@kurzgesagt"
 }

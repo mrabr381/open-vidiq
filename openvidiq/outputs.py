@@ -86,9 +86,12 @@ def build_report(analysis: dict, pack: dict, source: str) -> str:
     channel = analysis["channel"]
     now = datetime.now(timezone.utc).strftime("%Y-%m-%d")
     sample_banner = (
-        "> ⚠️ **SAMPLE DATA** — this report was generated from the bundled fictional "
-        "channel, not a real YouTube channel. Run with `--channel` and a YouTube "
-        "Data API key for real data.\n\n"
+        "> ℹ️ **SAMPLE DATA** — this report was generated from a bundled "
+        "snapshot of Kurzgesagt – In a Nutshell (@kurzgesagt): its 20 most "
+        "recent public uploads, with view counts as of 19 November 2026 "
+        "(source: vidIQ public stats). It is real public data, but a "
+        "snapshot — run with `--channel` and a YouTube Data API key for "
+        "live data on any channel.\n\n"
         if source == "sample" else ""
     )
     subs = (
