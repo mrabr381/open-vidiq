@@ -6,6 +6,7 @@
 [![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 [![No API key required](https://img.shields.io/badge/API%20key-not%20required-brightgreen.svg)](#quickstart)
+[![GitHub stars](https://img.shields.io/github/stars/mrabr381/open-vidiq?style=social)](https://github.com/mrabr381/open-vidiq) [![Buy me a coffee](https://img.shields.io/badge/Buy%20me%20a%20coffee-FFDD00?style=for-the-badge&logo=buy-me-a-coffee&logoColor=black)](https://www.buymeacoffee.com/muhammadabubakar)
 
 **Find which of your videos beat the average — free.**
 
@@ -13,7 +14,19 @@ Paste a channel. Find out what actually works on it — then generate titles fro
 
 ## Try it now
 
+**Live interactive demo:** [explore the Kurzgesagt outliers in your browser](https://mrabr381.github.io/open-vidiq/demo/) — clickable chart + sortable table, stats vs the channel median and velocity computed live in JS, no key needed.
+
+![Screenshot of the demo: Kurzgesagt outlier chart with the top video selected, showing 24,185,772 views at 10.36x the median, plus the 7-outlier list and the sortable table with all 20 videos](demo/screenshot.png)
+*Screenshot — the outlier chart with "AI Just Crossed the Terrifying Line - Now What?" selected (24,185,772 views, 10.36× the median) and the 7 outliers listed.*
+
+![Short GIF of the demo: clicking chart bars to inspect different videos and sorting the table by views](demo/demo.gif)
+*GIF — clicking bars on the chart to inspect different videos.*
+
 **Live sample report:** [see a real report, generated from a real channel](https://mrabr381.github.io/open-vidiq/sample_output/) — Kurzgesagt – In a Nutshell (@kurzgesagt, 25,800,000 subscribers, 4,020,025,007 total views, 401 videos as of 19 November 2026). The sample covers its 20 most recent public uploads: median **2,333,635** views per video, and the top video — "AI Just Crossed the Terrifying Line - Now What?" (24,185,772 views) — scored **10.36×** the median.
+
+![Live demo — the sample outlier report for Kurzgesagt](assets/screenshot.png)
+
+*Screenshot of the live sample report — outlier table (top video 10.36× the channel median), top keywords by lift, and generated titles.*
 
 **Web app — 1-click deploy (repo owner):** [share.streamlit.io](https://share.streamlit.io) → Create app → repo `mrabr381/open-vidiq`, branch `main`, file `app.py` → Deploy. No key needed for the sample channel; optional `YOUTUBE_API_KEY` in Secrets for live channels.
 
